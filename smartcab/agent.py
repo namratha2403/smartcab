@@ -94,8 +94,6 @@ class LearningAgent(Agent):
         for i in self.Q[state]:
             a[i]=self.Q[state][i]
         maxQ = [k for k,v in a.iteritems() if v == max(a.values())]
-        print "hello"
-        print maxQ
         return maxQ 
 
 
@@ -136,8 +134,6 @@ class LearningAgent(Agent):
                 action = random.choice(self.valid_actions)
             else:
                 action=random.choice(self.get_maxQ(state))
-                print "namratha"
-                print action
         else:
             action = random.choice(self.valid_actions)
         return action
