@@ -17023,7 +17023,7 @@ sMzMzMzMzOrk/wPOxwetm4EiiwAAAABJRU5ErkJggg==
 </tr>
 <tr>
 <td>('left', 'green', 'forward', 'left/right/None')</td>
-<td>right</td>
+<td>forward/right</td>
 </tr>
 <tr>
 <td>('left', 'green', 'left', 'None')</td>
@@ -17043,7 +17043,7 @@ sMzMzMzMzOrk/wPOxwetm4EiiwAAAABJRU5ErkJggg==
 </tr>
 <tr>
 <td>('left', 'green', 'None', 'right')</td>
-<td>right/forward</td>
+<td>left</td>
 </tr>
 <tr>
 <td>('left', 'green', 'None', 'None')</td>
@@ -17059,7 +17059,7 @@ sMzMzMzMzOrk/wPOxwetm4EiiwAAAABJRU5ErkJggg==
 </tr>
 <tr>
 <td>('right', 'green', 'left', 'None')</td>
-<td>left</td>
+<td>right</td>
 </tr>
 <tr>
 <td>('right', 'green', 'right', 'right/None')</td>
@@ -17083,11 +17083,11 @@ sMzMzMzMzOrk/wPOxwetm4EiiwAAAABJRU5ErkJggg==
 </tr>
 <tr>
 <td>('forward', 'green', 'None', 'left')</td>
-<td>right</td>
+<td>forward</td>
 </tr>
 <tr>
 <td>('forward', 'green', 'None', 'right/None')</td>
-<td>foreward</td>
+<td>forward</td>
 </tr>
 <tr>
 <td>('None', 'x', 'x', 'x')</td>
@@ -17109,7 +17109,7 @@ sMzMzMzMzOrk/wPOxwetm4EiiwAAAABJRU5ErkJggg==
 </tr>
 <tr>
 <td>(x,'red',x,x) </td>
-<td> Always none </td>
+<td> Always none except when going right and left is not forward.</td>
 <td>
 <ul>
 <li><b>forward : -19.81
@@ -17129,7 +17129,7 @@ sMzMzMzMzOrk/wPOxwetm4EiiwAAAABJRU5ErkJggg==
 </tr>
 <tr>
 <td>('left', 'green', 'forward', 'left/right/None')</td>
-<td>right</td>
+<td>foward/right</td>
 <td> 
  -- forward : -0.08
  -- right : 0.33
@@ -17284,7 +17284,13 @@ forward : 2.05
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>3) seeing the ('left',green,None,None) -&gt; left  policy, It obeyes the this as the Q value for the left action is higher than the others. Its also goes left given the waypoint is left. and both the oncoming and traffic to the left have stopped.</p>
+<p>3) seeing the ('left',green,None,None) 
+takes left</p>
+<p>-- forward : 1.02
+ -- right : 0.49
+ -- None : -5.46
+ -- left : 1.08</p>
+<p>above policy, It obeyes the this as the Q value for the left action is higher than the others. Its also goes left given the waypoint is left. and both the oncoming and traffic to the left have stopped.</p>
 
 </div>
 </div>
@@ -17293,9 +17299,20 @@ forward : 2.05
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>4) if the signal is red,agent must stop. whatever case it is , with no traffic on both oncoming and left. But seeing the first row in the table, it starts going right when the signal is red.</p>
-<p>for ('forward',green,'left','None') the agent is trying going forward rater than left which may case a crash.</p>
-<p>As to why the agent must have not behaved properly, there may be cases where the epsilon is greater then random.random(). This is done to prevent local minima by always getting actions getting the highest Q value. So two options are inclued one which chooses random actions and the other which chooses the highest Q value. While choosing the random action, there are more situations of this action failing and getting a less Q value. This causes the variation in the Q values.</p>
+<p>4) 
+('left', 'green', 'forward', 'left')
+has taken left action</p>
+<p>-- forward : 0.00
+ -- right : 0.00
+ -- None : 0.00
+ -- left : -9.81</p>
+<p>('right', 'green', 'forward', 'None/right')
+has taken forward action.</p>
+<p>-- forward : 1.10
+ -- right : 0.00
+ -- None : 0.00
+ -- left : 0.00</p>
+<p>in the above case the cab would have approached this state for the first time and would have chosen an action at random given all q values will be initially 0. The environment gives it a negative reward for taking this action as it not the optimal action.</p>
 
 </div>
 </div>

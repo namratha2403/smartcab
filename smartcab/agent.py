@@ -45,9 +45,6 @@ class LearningAgent(Agent):
         #else:
         #    self.epsilon=self.epsilon-0.05
         self.epsilon=self.epsilon*0.99
-        #xx= -0.5*self.tri
-        #self.epsilon=np.exp(xx)
-        #self.tri+=1
         if testing :
             self.epsilon =0
             self.aplha= 0
@@ -76,13 +73,11 @@ class LearningAgent(Agent):
         # Set 'state' as a tuple of relevant data for the agent        
         #state = (waypoint,inputs)
         
-        print inputs
         state_list = [waypoint]    
         for value in inputs:
             if value !='right':
                 state_list.append(inputs[value])
         state = tuple(state_list)
-
         return state
 
 
@@ -98,7 +93,8 @@ class LearningAgent(Agent):
         a={}
         for i in self.Q[state]:
             a[i]=self.Q[state][i]
-        maxQ = max(a, key=a.get)
+        maxQ = [k for k,v in a.iteritems() if v == max(a.values())]
+        print "hello"
         print maxQ
         return maxQ 
 
@@ -112,8 +108,9 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
-        if( state not in self.Q.keys()):
-            self.Q[state] = {'left':0.0,'right':0.0,'forward':0.0,None:0.0}
+        if self.learning:
+            if( state not in self.Q.keys()):
+                self.Q[state] = {'left':0.0,'right':0.0,'forward':0.0,None:0.0}
             
         return self.Q
 
@@ -138,7 +135,9 @@ class LearningAgent(Agent):
             if (self.epsilon > random.random()):
                 action = random.choice(self.valid_actions)
             else:
-                action=self.get_maxQ(state)
+                action=random.choice(self.get_maxQ(state))
+                print "namratha"
+                print action
         else:
             action = random.choice(self.valid_actions)
         return action
